@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    version="2.1" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+    http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+    <persistence-unit name="jogodaforca-dev" transaction-type="JTA">
+        <description>Dev persistence unit</description>
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <!-- java transaction api || JNDI -->
+        <jta-data-source>java:jboss/datasources/jogodaforcaDS</jta-data-source>
+        <!-- indica que nós queremos selecionar quais entidades serão cacheadas -->
+        <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+        <properties>
+        <!-- indica que a entidade ficará inantiva por volta de 300000 millissegundo -->
+        <property name="hibernate.cache.infinispan.entity.expiration.max_idle" value="300000"/>
+        <!-- quanto tempo vc quer que as entidade svivam dentro do cache em milissegundos
+        nesse período, todos os usuários que entrar verão os mesmo dados em cache -->
+        	<property name="hibernate.cache.infinispan.entity.expiration.lifespan" value="900000"/>
+        	<property name="hibernate.cache.use_query_cache" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true" />
+            <!-- <property name="hibernate.default_schema" value="jogodaforca"/> -->
+            <property name="hibernate.format_sql" value="true" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+            <!-- <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect"/> -->
+        </properties>
+    </persistence-unit>
+</persistence>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:z="http://java.sun.com/jsp/jstl/functions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" 
+	rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" 
+	crossorigin="anonymous"/>
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.js"/>
+	<script type="text/javascript" src="./js/jquery.mask.js"/>
+	<script type="text/javascript" 
+	src="./js/jquery.mask.min.js"/>
+	 <script type="text/javascript">
+				$(document).ready(function(){
+					 $(".cpf").mask("000.000.000-00"); //cpf
+					 $(".numCartao").mask("0000 0000 0000 0000");//número do cartão
+					$(".dataValidade").mask("00/00");//data de validade do cartão
+					 $(".codSeguranca").mask("000");//código de segurança do cartão
+				});
+			 </script>
+	<title>Cadastro de novo usuário</title>
+</h:head>
+<body>
+	<h:form class="container">
+	<!-- START: formulário nome, email, cpf, senha e confirmação de senha -->
+		<div class="row align-items-center">
+			<div class="col" >
+				<h:outputLabel value="Nome Completo: " class="form-label"/>
+				<p:inputText id="nome" value="#{cadastroBean.usuario.nome}"
+				class="form-control"/>
+				<p:message for="nome"/>
+			</div>
+			<div class="col">
+				<h:outputLabel value="email: " class="form-label"/>
+				<p:inputText id="email" value="#{cadastroBean.usuario.email}"
+				 class="form-control"/>
+				 <p:message for="email"/>
+			</div>
+			<div class="col">
+				<h:outputLabel value="CPF: " class="form-label"/>
+				<p:inputText  id="cpfId" class="cpf form-control" value="#{cadastroBean.usuario.cpf}"/>
+				<p:message for="cpfId"/>
+			</div>
+			<div class="col">
+				<h:outputLabel value="senha: " class="form-label"/>
+				<p:password value="#{cadastroBean.usuario.senha}" id="senhaId" match="confirmar"
+				validatorMessage="senha inválida" class="form-control"/>	
+				 <p:message for="senhaId"/>
+			</div>
+			<div class="col align-self-start">
+				<h:outputLabel value="repetir senha: " class="form-label"/>
+				<p:password id="confirmar"  class="form-control"/>
+			</div>
+		</div><!-- END: formulário nome, email, cpf, senha e confirmação de senha -->
+		
+		<!-- START: formulário escolher CEP -->
+		<div class="row align-items-center">
+			<h3>Informações de Logradouro:</h3>
+			<h:outputLabel value="CEP: " class="form-label"/>
+			<h:selectOneListbox class="list-group col-4" id="cep" value="#{cadastroBean.usuario.logradouro}"
+			converter="logradouroConverter">
+				<f:selectItems class="list-group-item" value="#{cadastroBean.buscarLogradouro()}" var="logradouro" 
+				itemLabel="#{logradouro.cep}" itemValue="#{logradouro}"/>
+			</h:selectOneListbox>
+			<p:message for="cep"/>
+		</div><!-- END: formulário escolher CEP -->
+		
+		<!-- START: formulário informações de Cartão -->
+			<div class="row align-items-center">
+				<h3>Informações de Cartão: </h3>
+				<div class="col">
+					<h:outputLabel value="Nome no cartão: " class="form-label"/>
+					<p:inputText id="nomeCartao" value="#{cadastroBean.cartao.nomeCartao}"
+					 class="form-control"/>
+					<p:message for="nomeCartao"/>
+				</div>
+				<div class="col">
+					<h:outputLabel value ="Número do cartão: " class="form-label"/>
+					<p:inputText id="numCartaoId" class="numCartao form-control" 
+					value="#{cadastroBean.cartao.numeroCartao}"/>
+					<p:message for="numCartaoId"/>
+				</div>
+				<div class="col">
+					<h:outputLabel value="data de validade: " class="form-label"/>
+					<p:inputText id="dataValidadeId" class = "dataValidade form-control" 
+					value="#{cadastroBean.cartao.dataValidade}"/>
+					<p:message for="dataValidadeId"/>
+				</div>
+				<div class="col">
+					<h:outputLabel value="Código de segurança" class="form-label"/>
+					<p:inputText id="codSegurancaId" class="codSeguranca form-control" 
+					value="#{cadastroBean.cartao.codSeguranca}"/>
+					<p:message for="codSegurancaId"/>
+				</div>
+			</div><!-- END: formulário informações de Cartão -->
+			
+			<!-- START: formulário botão cadastrar -->
+			<div class="row justify-content-start">
+				<h:commandButton value="CADASTRAR"  action="#{cadastroBean.cadastrar()}" 
+					class="btn btn-primary col-4"/>
+			</div><!-- END: formulário informações de Cartão -->
+	</h:form>
+</body>
+</html>
